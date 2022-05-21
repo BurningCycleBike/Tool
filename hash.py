@@ -12,13 +12,14 @@ def hash1(inp):
 	return hash2(inp)
 
 def hash2(s):
-	unicodeString = s.encode('utf-16')
+	# unicodeString = s.encode('utf-16')[2:]
+	# print(s, len(s), unicodeString, len(unicodeString))
 	res = 0xffffffff
-	for i in range(0, len(unicodeString)):
-		res ^= unicodeString[i]
+	for i in range(0, len(s)):
+		res = (res ^ ord(s[i])) & 0xffffffff
 		for j in range(0,8):
 			if (res & 1) != 0:
-				res ^= 0x4358ad64
-			res >>= 1
+				res ^= 0x4358AD54
+			res = res >> 1
 		
-	return res
+	return (~res) & 0xffffffff
